@@ -113,7 +113,7 @@ export default function AiChat() {
                   }
                 >
                   {m.role === "user"
-                    ? `${user?.name || user?.email || "you"}@campus:~$`
+                    ? `${user?.name || user?.email || "you"}@wardrobe:~$`
                     : "sustain-ai >"}
                 </span>
                 <div

@@ -42,7 +42,7 @@ export default function Rewear() {
               <thead>
                 <tr className="border-b border-border text-left text-xs uppercase tracking-wider text-muted-foreground">
                   <th className="px-4 py-3 font-medium">#</th>
-                  <th className="px-4 py-3 font-medium">student</th>
+                  <th className="px-4 py-3 font-medium">rewearer</th>
                   <th className="px-4 py-3 text-right font-medium">points</th>
                   <th className="hidden px-4 py-3 text-right font-medium sm:table-cell">
                     last log

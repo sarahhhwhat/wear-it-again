@@ -56,7 +56,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
           <div className="flex items-center gap-2 shrink-0">
             <span className="hidden text-xs text-muted-foreground md:block">
-              {user?.email ?? user?.name ?? "user"}
+              {user?.name ?? user?.email ?? "rewearer"}
             </span>
             <Button
               variant="outline"
@@ -69,13 +69,11 @@ export function AppShell({ children }: { children: ReactNode }) {
             </Button>
           </div>
         </div>
-      </header>
-
-      <main className="mx-auto w-full max-w-6xl px-4 py-8">{children}</main>
+      </header>      <main className="mx-auto w-full max-w-6xl px-4 py-8">{children}</main>
 
       <footer className="border-t border-border py-6 text-center text-xs text-muted-foreground">
-        wear-it-again v1.0 — campus sustainable-fashion campaign ·{" "}
-        <RefreshCw className="inline size-3" /> reworn, not reborn
+        Wear It Again v1.0 — reworn, not reborn ·{" "}
+        <RefreshCw className="inline size-3" /> every rewear counts
       </footer>
     </div>
   );

@@ -57,7 +57,7 @@ export const logRewear = mutation({
     const name =
       user?.name?.trim() ||
       user?.email?.split("@")[0] ||
-      `student-${userId.slice(-4)}`;
+      `rewearer-${userId.slice(-4)}`;
 
     const row = await ctx.db
       .query("leaderboard")

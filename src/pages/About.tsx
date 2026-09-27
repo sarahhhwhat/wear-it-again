@@ -5,39 +5,39 @@ import { Link } from "react-router";
 
 const TIMELINE = [
   {
-    range: "weeks 1-2",
-    title: "Launch + ambassador recruitment",
-    desc: "Campaign kicks off across campus. Students sign up as rewear ambassadors and recruit their floors, clubs and friend groups.",
+    range: "weeks 1–2",
+    title: "Launch + first rewears",
+    desc: "Wear It Again goes live. Early members sign up, list their first pieces on the swap board and start logging daily rewears to set the tone.",
   },
   {
     range: "week 3",
     title: "Guest brand talk",
-    desc: "A brand rep joins to talk supply chains, materials and how to read sustainability claims without falling for greenwashing.",
+    desc: "A guest from the industry joins us to talk supply chains, materials and how to read sustainability claims without falling for greenwashing.",
   },
   {
     range: "week 4",
-    title: "Clothing swap event",
-    desc: "Bring what you don't wear, take what you will. The swap board app mirrors the event so items move all week.",
+    title: "Community clothing swap",
+    desc: "Bring what you don't wear, take what you will. The swap board runs alongside the event all week, so items keep moving between meetups.",
   },
   {
     range: "week 5",
     title: "Repair café + upcycling",
-    desc: "Sewing stations and repair help for torn seams and missing buttons — plus upcycling tables for the creatively brave.",
+    desc: "Sewing stations and hands-on repair help for torn seams and missing buttons — plus upcycling tables for the creatively brave.",
   },
   {
     range: "week 6",
     title: "Style + rewear wrap-up",
-    desc: "Restyling workshops celebrate what's already hanging in your wardrobe. Outfit challenges crown the most reworn looks.",
+    desc: "Restyling workshops celebrate what's already hanging in your wardrobe. Outfit challenges crown the most reworn looks of the program.",
   },
   {
     range: "week 7",
     title: "Results shared",
-    desc: "Total rewears, swaps, water and CO2 saved — tallied and shared with the whole campus.",
+    desc: "Total rewears, swaps, litres of water saved and kilograms of CO2 avoided — tallied and shared openly with everyone who took part.",
   },
 ];
 
 export default function About() {
-  // Week 4-ish is "in progress" in this demo; tweak as the campaign runs.
+  // Week 4-ish is "in progress" in this demo; tweak as the program runs.
   const currentWeek = 4;
 
   return (
@@ -53,20 +53,24 @@ export default function About() {
         <div className="max-w-3xl space-y-4 text-sm leading-relaxed text-muted-foreground">
           <p>
             <span className="font-semibold text-foreground">Wear It Again</span>{" "}
-            started with a simple observation: the most sustainable garment is
-            the one already in your wardrobe. Fast fashion has made clothes feel
-            disposable — but every extra wear of something you already own is a
-            garment that never needed to be made.
+            is built on a simple observation: the most sustainable garment is
+            the one already hanging in your wardrobe. Fast fashion has trained
+            us to treat clothes as disposable — but every extra wear of
+            something you already own is a garment that never needed to be
+            manufactured.
           </p>
           <p>
-            Over seven weeks, the campus comes together to swap, repair,
-            restyle and — most importantly — rewear. Students post clothes on
-            the swap board, log daily rewears for points, and watch the saved
-            litres and kilograms stack up.
+            It's for everyone. Post the pieces you're ready to part with,
+            search the catalog for your next favorite thing, comment on
+            listings, and log a rewear each day to keep your streak alive.
+            As items change hands, the app tallies the water and CO2 saved —
+            2,700 litres and 8 kilograms for every garment kept in rotation
+            instead of replaced.
           </p>
           <p>
-            The campaign ends with results shared openly: rewears logged,
-            garments swapped, water saved, CO2 avoided. Small habits, measured
+            The first seven weeks follow the program below, and it ends the
+            way it runs: with results shared openly. Rewears logged, garments
+            swapped, water saved, CO2 avoided. Small habits, measured
             honestly, add up.
           </p>
         </div>

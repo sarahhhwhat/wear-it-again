@@ -67,8 +67,8 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
 
   const friendly =
     mode === "signIn"
-      ? "Log in with your email and password."
-      : "Create an account to post on the Swap Board and join the Rewear Challenge.";
+      ? "Good to see you again. Log in and pick up your streak."
+      : "Create a free account to list clothes, claim new favourites, and start logging your impact.";
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -79,10 +79,9 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
             <div className="flex items-center gap-2 border-b border-border bg-muted px-4 py-2.5">
               <span className="size-2.5 rounded-full bg-destructive/70" />
               <span className="size-2.5 rounded-full bg-warn/70" />
-              <span className="size-2.5 rounded-full bg-ok/70" />
-              <span className="ml-2 text-xs text-muted-foreground">
-                wear-it-again — {mode === "signUp" ? "register" : "login"}
-              </span>
+              <span className="size-2.5 rounded-full bg-ok/70" />                <span className="ml-2 text-xs text-muted-foreground">
+                  wear-it-again — {mode === "signUp" ? "create account" : "log in"}
+                </span>
             </div>
 
             <div className="p-6 sm:p-8">
@@ -128,7 +127,7 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
                     id="email"
                     name="email"
                     type="email"
-                    placeholder="you@campus.edu"
+                    placeholder="you@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     autoComplete="email"

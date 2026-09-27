@@ -16,25 +16,25 @@ const FEATURES = [
     to: "/swap-board",
     icon: Shuffle,
     title: "swap_board",
-    desc: "Post clothes you no longer wear. Claim what you'll actually wear again.",
+    desc: "List what you no longer wear, claim what you will. Every swap keeps a garment in circulation.",
   },
   {
     to: "/rewear",
     icon: Repeat2,
     title: "rewear_challenge",
-    desc: "One rewear a day. +10 points. Climb the campus leaderboard.",
+    desc: "One logged rewear a day, ten points each. Watch your streak — and the leaderboard — climb.",
   },
   {
     to: "/calculator",
     icon: Calculator,
     title: "impact_calc",
-    desc: "See the water and CO2 you save by rewearing instead of rebuying.",
+    desc: "Turn rewears into litres of water and kilograms of CO₂ you never spent.",
   },
   {
     to: "/ai-chat",
     icon: MessageSquareText,
     title: "ai_chat",
-    desc: "Ask about brands, materials, repair — grounded sustainable-fashion answers.",
+    desc: "'Is this brand actually sustainable?' Ask. Get a straight answer, not a slogan.",
   },
 ];
 
@@ -59,18 +59,24 @@ export default function Landing() {
             </span>
             <span className="font-semibold tracking-tight">wear-it-again</span>
           </div>
-          <nav className="flex items-center gap-1 overflow-x-auto term-scroll text-xs">
-            <a href="#features" className="hidden rounded-sm px-2.5 py-1.5 text-muted-foreground hover:text-foreground sm:block">
+          <nav className="flex items-center gap-1 text-xs">
+            <a
+              href="#features"
+              className="hidden rounded-sm px-2.5 py-1.5 text-muted-foreground hover:text-foreground sm:block"
+            >
               features
             </a>
-            <a href="#timeline" className="hidden rounded-sm px-2.5 py-1.5 text-muted-foreground hover:text-foreground sm:block">
+            <Link
+              to="/about"
+              className="hidden rounded-sm px-2.5 py-1.5 text-muted-foreground hover:text-foreground sm:block"
+            >
               about
-            </a>
+            </Link>
             <Link
               to={primary}
-              className="ml-2 rounded-sm bg-primary px-3 py-1.5 font-semibold text-primary-foreground hover:bg-primary/90"
+              className="term-glow ml-2 rounded-sm bg-primary px-3 py-1.5 font-semibold text-primary-foreground hover:bg-primary/90"
             >
-              {isAuthenticated ? "open terminal" : "$ get started"}
+              {isAuthenticated ? "open your dashboard" : "$ join free"}
             </Link>
           </nav>
         </div>
@@ -86,46 +92,49 @@ export default function Landing() {
             className="max-w-3xl"
           >
             <p className="text-xs uppercase tracking-[0.2em] text-ok">
-              campus sustainable-fashion campaign
+              wear it again — the rewearing movement
             </p>
             <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight sm:text-6xl">
-              Wear it again.
+              The most sustainable outfit
               <br />
-              <span className="text-ok term-cursor">Then wear it again</span>
+              <span className="text-ok term-cursor">is the one you own.</span>
             </h1>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground">
-              A seven-week campaign to make rewearing the default. Swap clothes
-              you no longer wear, log daily rewears, and see your real impact —
-              measured in litres and kilograms, not likes.
+              Wear It Again turns rewearing into a habit you can see. Swap
+              clothes with others, log each day you rewear something, and watch
+              the water and carbon you save stack up in real numbers.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Button size="lg" className="h-11 px-6 font-semibold" asChild>
+              <Button size="lg" className="term-glow h-11 px-6 font-semibold" asChild>
                 <Link to={primary}>
                   {isAuthenticated
-                    ? "Continue to your terminal"
-                    : "Join the campaign"}
+                    ? "back to your dashboard"
+                    : "start rewearing — it's free"}
                   <ArrowRight className="size-4" />
                 </Link>
               </Button>
               <Button size="lg" variant="outline" className="h-11 px-6" asChild>
-                <a href="#features">see what's inside</a>
+                <a href="#features">see how it works</a>
               </Button>
             </div>
 
             {/* boot log */}
             <div className="mt-10 max-w-lg rounded-md border border-border bg-card p-4 text-xs leading-6">
               <p className="text-muted-foreground">
-                <span className="text-ok">[ ok ]</span> swap board online
+                <span className="text-ok">[ ok ]</span> swap board: online
               </p>
               <p className="text-muted-foreground">
-                <span className="text-ok">[ ok ]</span> rewear challenge: +10/day
+                <span className="text-ok">[ ok ]</span> rewear challenge: +10
+                pts/day
               </p>
               <p className="text-muted-foreground">
-                <span className="text-ok">[ ok ]</span> impact calc calibrated
+                <span className="text-ok">[ ok ]</span> impact calc: 2,700 L ·
+                8 kg CO₂ per garment
               </p>
               <p className="text-muted-foreground">
-                <span className="text-warn">[ .. ]</span> ai assistant ready…
+                <span className="text-warn">[ .. ]</span> your first rewear:
+                waiting for you
               </p>
             </div>
           </motion.div>
@@ -136,10 +145,10 @@ export default function Landing() {
       <section id="features" className="border-b border-border bg-muted/40">
         <div className="mx-auto max-w-6xl px-4 py-16">
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            // programs
+            // what's inside
           </p>
           <h2 className="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">
-            Four ways to wear it again
+            Small habit. Measurable impact.
           </h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {FEATURES.map((f, i) => (
@@ -151,7 +160,10 @@ export default function Landing() {
                 transition={{ delay: i * 0.05, duration: 0.4 }}
               >
                 <Link to={f.to}>
-                  <TermWindow title={`~/${f.title}`} className="h-full transition-shadow hover:shadow-md">
+                  <TermWindow
+                    title={`~/${f.title}`}
+                    className="h-full transition-shadow hover:shadow-md"
+                  >
                     <div className="flex items-start gap-4">
                       <div className="flex size-10 shrink-0 items-center justify-center rounded-sm border border-border bg-ok/10 text-ok">
                         <f.icon className="size-5" />
@@ -178,38 +190,50 @@ export default function Landing() {
       <section className="border-b border-border">
         <div className="mx-auto grid max-w-6xl gap-6 px-4 py-12 sm:grid-cols-3">
           {[
-            { k: "2,700 L", v: "water saved per reworn tee instead of new" },
-            { k: "8 kg", v: "CO2 avoided per garment you don't buy new" },
-            { k: "7 weeks", v: "of swaps, repair cafés and rewearing" },
+            {
+              k: "2,700 L",
+              v: "of water kept in the ground for every new garment you skip",
+            },
+            {
+              k: "8 kg",
+              v: "of CO₂ that never enters the air, per garment reworn instead of bought",
+            },
+            {
+              k: "∞",
+              v: "wears left in the clothes already hanging in your wardrobe",
+            },
           ].map((s) => (
             <div key={s.k}>
               <p className="text-3xl font-bold tabular-nums text-ok">{s.k}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{s.v}</p>
+              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                {s.v}
+              </p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* about teaser + CTA */}
-      <section id="timeline" className="bg-muted/40">
+      {/* closing CTA */}
+      <section className="bg-muted/40">
         <div className="mx-auto max-w-6xl px-4 py-16">
           <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
             <div className="max-w-xl">
               <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                // the campaign
+                // why it matters
               </p>
               <h2 className="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">
-                Seven weeks. One wardrobe at a time.
+                Fashion's footprint is huge. Your wardrobe is the fix.
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                From ambassador recruitment to the final results share-out, the
-                campaign runs a guest brand talk, a clothing swap event, a
-                repair café and more.
+                Producing one new garment costs the planet thousands of litres
+                of water and kilograms of CO₂. Wearing what you already own
+                costs nothing — and now you can prove it, one logged rewear at
+                a time.
               </p>
             </div>
             <Button variant="outline" size="lg" className="shrink-0" asChild>
               <Link to="/about">
-                read the timeline <ArrowRight className="size-4" />
+                read the campaign story <ArrowRight className="size-4" />
               </Link>
             </Button>
           </div>
@@ -219,9 +243,10 @@ export default function Landing() {
       {/* footer */}
       <footer className="border-t border-border bg-background">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 py-8 text-xs text-muted-foreground sm:flex-row">
-          <span>© {new Date().getFullYear()} wear-it-again — campus campaign</span>
+          <span>© {new Date().getFullYear()} Wear It Again — reworn, not reborn</span>
           <span>
-            exit code <span className="text-ok">0</span> · reworn, not reborn
+            exit code <span className="text-ok">0</span> · wardrobe: unchanged,
+            impact: changed
           </span>
         </div>
       </footer>

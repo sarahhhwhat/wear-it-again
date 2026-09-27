@@ -15,6 +15,7 @@ const Landing = lazy(() => import("./pages/Landing.tsx"));
 const AuthPage = lazy(() => import("./pages/Auth.tsx"));
 const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
 const SwapBoard = lazy(() => import("./pages/SwapBoard.tsx"));
+const ItemDetail = lazy(() => import("./pages/ItemDetail.tsx"));
 const Rewear = lazy(() => import("./pages/Rewear.tsx"));
 const Calculator = lazy(() => import("./pages/Calculator.tsx"));
 const AiChat = lazy(() => import("./pages/AiChat.tsx"));
@@ -146,6 +147,16 @@ createRoot(document.getElementById("root")!).render(
                   <RequireAuth>
                     <AppShell>
                       <SwapBoard />
+                    </AppShell>
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/swap-board/:id"
+                element={
+                  <RequireAuth>
+                    <AppShell>
+                      <ItemDetail />
                     </AppShell>
                   </RequireAuth>
                 }
