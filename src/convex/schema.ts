@@ -34,7 +34,7 @@ const schema = defineSchema(
 
     // ---- Wear It Again ----
 
-    // Items posted to the swap board
+    // Items listed on the swap board
     swapItems: defineTable({
       title: v.string(),
       category: v.string(),
@@ -42,16 +42,47 @@ const schema = defineSchema(
       postedBy: v.id("users"),
       contact: v.string(),
       claimed: v.boolean(),
+      // optional sale price; null means "swap only" (no checkout)
+      priceCents: v.optional(v.number()),
+      // who claimed/bought the item (set on claim or successful checkout)
+      claimedBy: v.optional(v.id("users")),
+      claimedAt: v.optional(v.number()),
+      // short description shown on the detail page
+      description: v.optional(v.string()),
+      // uploaded photo stored as a data URL string (small images only)
+      imageDataUrl: v.optional(v.string()),
     })
       .index("by_postedBy", ["postedBy"])
-      .index("by_claimed", ["claimed"]),
+      .index("by_claimed", ["claimed"])
+      .index("by_claimedBy", ["claimedBy"]),
+
+    // Comments on a swap item's detail page
+    comments: defineTable({
+      itemId: v.id("swapItems"),
+      userId: v.id("users"),
+      name: v.string(),
+      body: v.string(),
+    }).index("by_item", ["itemId"]),
+
+    // Purchases made through checkout
+    orders: defineTable({
+      itemId: v.id("swapItems"),
+      buyerId: v.id("users"),
+      sellerId: v.id("users"),
+      amountCents: v.number(),
+      // "pending" until payment confirms; "paid" after checkout completes
+      status: v.union(v.literal("pending"), v.literal("paid")),
+    })
+      .index("by_item", ["itemId"])
+      .index("by_buyer", ["buyerId"])
+      .index("by_seller", ["sellerId"]),
 
     // Rewear challenge points; one row per user
     leaderboard: defineTable({
       userId: v.id("users"),
       name: v.string(),
       points: v.number(),
-      lastLoggedAt: v.optional(v.number()), // timestamp of last "rewore today" log (ms)
+      lastLoggedAt: v.optional(v.number()),
     })
       .index("by_userId", ["userId"])
       .index("by_points", ["points"]),

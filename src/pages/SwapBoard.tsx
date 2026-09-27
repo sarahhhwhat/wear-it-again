@@ -34,8 +34,7 @@ const CATEGORIES = [
 const SIZES = ["XS", "S", "M", "L", "XL", "one-size"] as const;
 
 export default function SwapBoard() {
-  const { user } = useAuth();
-  const items = useQuery(api.swapItems.list);
+  const items = useQuery(api.swapItems.list, { claimedFilter: "all" });
   const mine = useQuery(api.swapItems.mine);
   const post = useMutation(api.swapItems.post);
   const claim = useMutation(api.swapItems.claim);
@@ -258,13 +257,8 @@ export default function SwapBoard() {
                     <div className="min-w-0">
                       <p className="truncate text-sm font-semibold">{it.title}</p>
                       <p className="mt-0.5 text-xs text-muted-foreground">
-                        {it.category} · size {it.size} · by{" "}
-                        <span className="text-foreground/80">
-                          {it.isMine
-                            ? "you"
-                            : it.posterName || it.posterEmail || "student"}
-                        </span>
-                        {it.isMine ? ` · contact: ${it.contact}` : ""}
+                        {it.category} · size {it.size}
+                        {it.isMine ? " · by you" : ""}
                       </p>
                     </div>
                     <div className="flex shrink-0 items-center gap-2">
@@ -318,10 +312,8 @@ export default function SwapBoard() {
                         {it.title}
                       </p>
                       <p className="mt-0.5 text-xs text-muted-foreground">
-                        {it.category} · size {it.size} · by{" "}
-                        {it.isMine
-                          ? "you"
-                          : it.posterName || it.posterEmail || "student"}
+                        {it.category} · size {it.size}
+                        {it.isMine ? " · by you" : ""}
                       </p>
                     </div>
                     <div className="flex shrink-0 items-center gap-2">
