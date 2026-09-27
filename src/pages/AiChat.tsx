@@ -56,12 +56,15 @@ export default function AiChat() {
           ? err.message.replace(/^Uncaught Error: /, "")
           : "AI request failed.",
       );
+      const detail =
+        err instanceof Error
+          ? err.message.replace(/^Uncaught Error: /, "")
+          : "Try again in a moment.";
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content:
-            "⚠ Connection to the fashion brain failed. Try again in a moment.",
+          content: `⚠ Chat is unavailable right now. ${detail}`,
         },
       ]);
     } finally {

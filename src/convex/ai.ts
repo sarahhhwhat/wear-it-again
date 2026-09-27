@@ -3,8 +3,8 @@
 import { v } from "convex/values";
 import { action } from "./_generated/server";
 
-const SYSTEM_PROMPT = `You are the "Wear It Again" campus sustainable-fashion assistant.
-You help students with practical, evidence-informed answers about sustainable fashion:
+const SYSTEM_PROMPT = `You are the "Wear It Again" sustainable-fashion assistant.
+You help anyone with practical, evidence-informed answers about sustainable fashion:
 - whether brands are actually sustainable (be honest that claims vary; suggest checking certifications like GOTS, Fair Trade, B Corp, and transparency reports)
 - clothing care, repair, and upcycling
 - swapping, secondhand shopping, and rewearing habits
@@ -12,13 +12,17 @@ You help students with practical, evidence-informed answers about sustainable fa
 
 Rules:
 - Keep answers short and friendly: 2-5 sentences, or a short list when asked for options.
-- Stay on topic: sustainable fashion, clothing care, swaps, repair, textiles. Politely redirect unrelated questions back to the campaign.
-- Never invent certifications, statistics, or brand policies you are unsure of; say when the student should verify with the brand directly.`;
+- Stay on topic: sustainable fashion, clothing care, swaps, repair, textiles. Politely redirect unrelated questions back to rewearing and sustainable fashion.
+- Never invent certifications, statistics, or brand policies you are unsure of; say when the reader should verify with the brand directly.`;
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
+// Try GROQ_MODEL first if set, then current public production models, then
+// legacy Llama IDs as a last resort for enterprise-tier keys.
 const MODELS = [
   process.env.GROQ_MODEL,
+  "openai/gpt-oss-120b",
+  "openai/gpt-oss-20b",
   "llama-3.3-70b-versatile",
   "llama-3.1-8b-instant",
 ].filter((m): m is string => typeof m === "string" && m.length > 0);
@@ -90,7 +94,12 @@ export const ask = action({
             `Groq API error (${res.status}): ${body.slice(0, 300)}`,
           );
           // A missing/invalid model is retryable with the next candidate;
-          // auth problems are not.
+          // auth and quota problems are not.
+          if (res.status === 429) {
+            throw new Error(
+              "Groq rate limit or quota reached (429). Wait a moment and try again, or check the account's usage.",
+            );
+          }
           if (res.status === 401 || res.status === 403) throw lastError;
           continue;
         }
@@ -106,6 +115,10 @@ export const ask = action({
         return { answer, model };
       } catch (err) {
         lastError = err;
+        if (err instanceof Error && /429/.test(err.message)) {
+          // Quota/rate-limit is account-wide: retrying other models won't help.
+          throw err;
+        }
         if (
           err instanceof Error &&
           /401|403/.test(err.message)
