@@ -12,6 +12,7 @@ import type * as ai from "../ai.js";
 import type * as auth from "../auth.js";
 import type * as auth_emailOtp from "../auth/emailOtp.js";
 import type * as comments from "../comments.js";
+import type * as greenwash from "../greenwash.js";
 import type * as http from "../http.js";
 import type * as leaderboard from "../leaderboard.js";
 import type * as orders from "../orders.js";
@@ -29,6 +30,7 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   "auth/emailOtp": typeof auth_emailOtp;
   comments: typeof comments;
+  greenwash: typeof greenwash;
   http: typeof http;
   leaderboard: typeof leaderboard;
   orders: typeof orders;

@@ -19,6 +19,7 @@ const ItemDetail = lazy(() => import("./pages/ItemDetail.tsx"));
 const Rewear = lazy(() => import("./pages/Rewear.tsx"));
 const Calculator = lazy(() => import("./pages/Calculator.tsx"));
 const AiChat = lazy(() => import("./pages/AiChat.tsx"));
+const GreenwashCheck = lazy(() => import("./pages/GreenwashCheck.tsx"));
 const About = lazy(() => import("./pages/About.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
@@ -187,6 +188,16 @@ createRoot(document.getElementById("root")!).render(
                   <RequireAuth>
                     <AppShell>
                       <AiChat />
+                    </AppShell>
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/greenwash-check"
+                element={
+                  <RequireAuth>
+                    <AppShell>
+                      <GreenwashCheck />
                     </AppShell>
                   </RequireAuth>
                 }

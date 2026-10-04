@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { to: "/swap-board", label: "swap_board" },
   { to: "/rewear", label: "rewear" },
   { to: "/calculator", label: "impact_calc" },
+  { to: "/greenwash-check", label: "greenwash_check" },
   { to: "/ai-chat", label: "ai_chat" },
   { to: "/about", label: "about" },
 ];

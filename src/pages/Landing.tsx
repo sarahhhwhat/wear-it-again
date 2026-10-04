@@ -6,6 +6,7 @@ import {
   ArrowRight,
   Calculator,
   MessageSquareText,
+  ScanSearch,
   Repeat2,
   Shuffle,
 } from "lucide-react";
@@ -29,6 +30,12 @@ const FEATURES = [
     icon: Calculator,
     title: "impact_calc",
     desc: "Turn rewears into litres of water and kilograms of CO₂ you never spent.",
+  },
+  {
+    to: "/greenwash-check",
+    icon: ScanSearch,
+    title: "greenwash_check",
+    desc: "Paste a brand's sustainability claim. Spot the vague wording before you buy into it.",
   },
   {
     to: "/ai-chat",
@@ -233,7 +240,7 @@ export default function Landing() {
             </div>
             <Button variant="outline" size="lg" className="shrink-0" asChild>
               <Link to="/about">
-                read the campaign story <ArrowRight className="size-4" />
+                read the story <ArrowRight className="size-4" />
               </Link>
             </Button>
           </div>
