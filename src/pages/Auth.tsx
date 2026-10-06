@@ -53,14 +53,22 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
       });
       navigate(redirect, { replace: true });
     } catch (err) {
-      const message =
-        err instanceof Error ? err.message : "Something went wrong. Try again.";
-      setError(
-        message
-          .replace(/^Uncaught Error: /, "")
-          .replace(/^Error: /, "")
-          .slice(0, 200),
-      );
+      const raw = err instanceof Error ? err.message : "";
+      const cleaned = raw
+        .replace(/^\[CONVEX [^\]]+\]\s*/, "")
+        .replace(/^\[Request ID: [^\]]+\]\s*/, "")
+        .replace(/^Uncaught Error: /, "")
+        .replace(/^Error: /, "");
+      // Convex hides plain server-side errors behind "Server Error", which
+      // tells the user nothing. In practice both real causes are credential
+      // mismatches: the email is already registered (sign-up), or there is no
+      // account for that email / the password is wrong (sign-in).
+      const message = /Server Error|Called by client/.test(cleaned)
+        ? mode === "signUp"
+          ? "could not create the account — that email may already be registered here. Try logging in instead."
+          : "could not log in — check the email and password, or switch to sign up if this is a new email."
+        : cleaned || "Something went wrong. Try again.";
+      setError(message.slice(0, 200));
       setIsLoading(false);
     }
   };
