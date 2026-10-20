@@ -1,11 +1,11 @@
 {
-  "name": "freebuff.com application",
-  "short_name": "freebuff.com",
-  "description": "freebuff.com application",
+  "name": "Wear It Again",
+  "short_name": "Wear It Again",
+  "description": "Swap clothes, log rewears and check brand claims.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "background_color": "#f2f4f9",
+  "theme_color": "#2747d8",
   "icons": [
     {
       "src": "/logo.svg",

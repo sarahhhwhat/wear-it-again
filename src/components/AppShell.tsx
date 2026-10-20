@@ -1,18 +1,27 @@
+import { BrandMark } from "@/components/BrandMark";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
-import { LogOut, RefreshCw } from "lucide-react";
+import { cn } from "@/lib/utils";
+import {
+  CalendarCheck,
+  Leaf,
+  LogOut,
+  MessageCircle,
+  Repeat2,
+  ScanSearch,
+} from "lucide-react";
 import type { ReactNode } from "react";
 import { NavLink, useNavigate } from "react-router";
 
 const NAV_ITEMS = [
-  { to: "/dashboard", label: "home" },
-  { to: "/swap-board", label: "swap_board" },
-  { to: "/rewear", label: "rewear" },
-  { to: "/calculator", label: "impact_calc" },
-  { to: "/greenwash-check", label: "greenwash_check" },
-  { to: "/ai-chat", label: "ai_chat" },
-  { to: "/about", label: "about" },
-];
+  { to: "/dashboard", label: "Home", icon: null },
+  { to: "/swap-board", label: "Swap board", short: "Swap", icon: Repeat2 },
+  { to: "/rewear", label: "Rewear", short: "Rewear", icon: CalendarCheck },
+  { to: "/calculator", label: "Impact", short: "Impact", icon: Leaf },
+  { to: "/greenwash-check", label: "Greenwash check", short: "Check", icon: ScanSearch },
+  { to: "/ai-chat", label: "Ask AI", short: "Ask AI", icon: MessageCircle },
+  { to: "/about", label: "About", icon: null },
+] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { user, signOut } = useAuth();
@@ -24,58 +33,87 @@ export function AppShell({ children }: { children: ReactNode }) {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-40 border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80">
-        <div className="mx-auto flex h-14 max-w-6xl items-center gap-4 px-4">
-          <NavLink to="/dashboard" className="flex items-center gap-2 shrink-0">
-            <span className="inline-flex size-7 items-center justify-center rounded-sm border border-border bg-ok/10 text-ok font-bold">
-              ♻
-            </span>
-            <span className="hidden font-semibold tracking-tight sm:block">
-              wear-it-again
-            </span>
+    <div className="min-h-screen bg-background pb-20 md:pb-0">
+      <header className="sticky top-0 z-40 border-b border-border bg-card/90 backdrop-blur">
+        <div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-4">
+          <NavLink to="/dashboard" className="shrink-0" aria-label="Home">
+            <BrandMark />
           </NavLink>
 
-          <nav className="flex flex-1 items-center gap-1 overflow-x-auto term-scroll">
+          <nav className="hidden flex-1 items-center gap-1 md:flex">
             {NAV_ITEMS.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  `rounded-sm px-2.5 py-1.5 text-xs whitespace-nowrap transition-colors ${
+                  cn(
+                    "relative rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                     isActive
-                      ? "bg-ok/15 text-ok font-semibold"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                  }`
+                      ? "bg-secondary text-primary after:absolute after:inset-x-3 after:-bottom-[13px] after:h-0.5 after:bg-stitch"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                  )
                 }
               >
-                <span className="text-ok/70">./</span>
                 {item.label}
               </NavLink>
             ))}
           </nav>
 
-          <div className="flex items-center gap-2 shrink-0">
-            <span className="hidden text-xs text-muted-foreground md:block">
-              {user?.name ?? user?.email ?? "rewearer"}
+          <div className="ml-auto flex shrink-0 items-center gap-3">
+            <span className="hidden max-w-40 truncate text-sm text-muted-foreground lg:block">
+              {user?.name ?? user?.email ?? "Signed in"}
             </span>
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-1.5"
-              onClick={handleSignOut}
-            >
+            <Button variant="outline" size="sm" onClick={handleSignOut}>
               <LogOut className="size-3.5" />
-              <span className="hidden sm:inline">exit</span>
+              Sign out
             </Button>
           </div>
         </div>
-      </header>      <main className="mx-auto w-full max-w-6xl px-4 py-8">{children}</main>
+      </header>
 
-      <footer className="border-t border-border py-6 text-center text-xs text-muted-foreground">
-        Wear It Again v1.0 — reworn, not reborn ·{" "}
-        <RefreshCw className="inline size-3" /> every rewear counts
+      <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-10">
+        {children}
+      </main>
+
+      <footer className="hidden border-t border-border py-6 text-center text-sm text-muted-foreground md:block">
+        Wear It Again. Every rewear counts.
       </footer>
+
+      {/* phone tab bar: the five everyday tools, one tap away */}
+      <nav
+        aria-label="Main"
+        className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-border bg-card/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
+      >
+        {NAV_ITEMS.filter((i) => i.icon).map((item) => {
+          const Icon = item.icon!;
+          return (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              className={({ isActive }) =>
+                cn(
+                  "flex flex-col items-center gap-0.5 py-2.5 text-[11px] font-medium",
+                  isActive ? "text-primary" : "text-muted-foreground",
+                )
+              }
+            >
+              {({ isActive }) => (
+                <>
+                  <span
+                    className={cn(
+                      "flex h-7 w-12 items-center justify-center rounded-full transition-colors",
+                      isActive && "bg-secondary",
+                    )}
+                  >
+                    <Icon className="size-5" />
+                  </span>
+                  {"short" in item ? item.short : item.label}
+                </>
+              )}
+            </NavLink>
+          );
+        })}
+      </nav>
     </div>
   );
 }

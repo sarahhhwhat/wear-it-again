@@ -1,15 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { TermWindow } from "@/components/TermWindow";
+import { Panel } from "@/components/Panel";
 import { api } from "@/convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
 import { CheckCircle2, Loader2, Repeat2 } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
-
-function todayKey() {
-  const d = new Date();
-  return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}-${String(d.getUTCDate()).padStart(2, "0")}`;
-}
 
 function sameUtcDay(a: number, b: number) {
   const da = new Date(a);
@@ -18,6 +13,17 @@ function sameUtcDay(a: number, b: number) {
     da.getUTCFullYear() === db.getUTCFullYear() &&
     da.getUTCMonth() === db.getUTCMonth() &&
     da.getUTCDate() === db.getUTCDate()
+  );
+}
+
+function Stat({ label, value }: { label: string; value: string | number }) {
+  return (
+    <div className="rounded-xl bg-muted/70 px-4 py-3">
+      <p className="text-sm text-muted-foreground">{label}</p>
+      <p className="mt-0.5 font-display text-3xl font-bold tabular-nums">
+        {value}
+      </p>
+    </div>
   );
 }
 
@@ -51,48 +57,24 @@ export function RewearAction() {
   const canLog = me !== undefined && !alreadyToday && !pending;
 
   return (
-    <TermWindow title="rewear --log-today">
+    <Panel stitched bodyClassName="p-6 sm:p-7">
       <div className="flex flex-col gap-6">
         <div>
-          <p className="text-xs text-muted-foreground">
-            <span className="text-ok">$</span> wear-it-again rewear-challenge
-          </p>
-          <h2 className="mt-2 text-2xl font-semibold tracking-tight">
-            Rewear Challenge
+          <h2 className="font-display text-2xl font-bold tracking-tight">
+            Did you rewear something today?
           </h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Rewearing beats rebuying. Log it once a day, earn{" "}
-            <span className="text-ok font-semibold">+10 points</span>.
+          <p className="mt-1 text-muted-foreground">
+            Log it once a day and earn 10 points.
           </p>
         </div>
 
-        <div className="grid grid-cols-3 gap-3 sm:gap-4">
-          <div className="rounded-md border border-border bg-muted/60 p-3 sm:p-4">
-            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
-              my points
-            </p>
-            <p className="mt-1 text-2xl font-bold tabular-nums text-ok">
-              {me === undefined ? "…" : (me?.points ?? 0)}
-            </p>
-          </div>
-          <div className="rounded-md border border-border bg-muted/60 p-3 sm:p-4">
-            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
-              my rank
-            </p>
-            <p className="mt-1 text-2xl font-bold tabular-nums">
-              {me?.rank != null ? `#${me.rank}` : "—"}
-            </p>
-          </div>
-          <div className="rounded-md border border-border bg-muted/60 p-3 sm:p-4">
-            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
-              status today
-            </p>
-            <p
-              className={`mt-1 text-2xl font-bold ${alreadyToday ? "text-warn" : "text-ok"}`}
-            >
-              {me === undefined ? "…" : alreadyToday ? "DONE" : "OPEN"}
-            </p>
-          </div>
+        <div className="grid grid-cols-3 gap-3">
+          <Stat label="Points" value={me === undefined ? "…" : (me?.points ?? 0)} />
+          <Stat label="Rank" value={me?.rank != null ? `#${me.rank}` : "–"} />
+          <Stat
+            label="Today"
+            value={me === undefined ? "…" : alreadyToday ? "Logged" : "Open"}
+          />
         </div>
 
         <Button
@@ -103,35 +85,32 @@ export function RewearAction() {
         >
           {pending ? (
             <>
-              <Loader2 className="size-5 animate-spin" /> logging…
+              <Loader2 className="size-5 animate-spin" /> Logging
             </>
           ) : alreadyToday ? (
             <>
-              <CheckCircle2 className="size-5" /> logged today — see you tomorrow
+              <CheckCircle2 className="size-5" /> Logged. See you tomorrow
             </>
           ) : (
             <>
-              <Repeat2 className="size-5" /> I rewore something today (+10)
+              <Repeat2 className="size-5" /> I rewore something today
             </>
           )}
         </Button>
 
         {error && (
-          <p className="rounded border border-warn/40 bg-warn/10 px-3 py-2 text-xs text-warn">
+          <p className="rounded-lg border border-warn/40 bg-accent px-3 py-2 text-sm text-warn">
             {error}
           </p>
         )}
 
-        <p className="text-xs text-muted-foreground">
-          Watching the live leaderboard?{" "}
-          <Link
-            to="/rewear"
-            className="text-primary underline-offset-4 hover:underline"
-          >
-            open ./rewear →
+        <p className="text-sm text-muted-foreground">
+          Want to see where you stand?{" "}
+          <Link to="/rewear" className="font-medium text-primary hover:underline">
+            Open the leaderboard
           </Link>
         </p>
       </div>
-    </TermWindow>
+    </Panel>
   );
 }

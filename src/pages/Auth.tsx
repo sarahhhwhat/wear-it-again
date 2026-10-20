@@ -1,3 +1,4 @@
+import { BrandMark } from "@/components/BrandMark";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/use-auth";
@@ -79,153 +80,138 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
       : "Create a free account to list clothes, claim new favourites, and start logging your impact.";
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <div className="flex-1 flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-md">
-          <div className="overflow-hidden rounded-md border border-border bg-card shadow-sm">
-            {/* terminal title bar */}
-            <div className="flex items-center gap-2 border-b border-border bg-muted px-4 py-2.5">
-              <span className="size-2.5 rounded-full bg-destructive/70" />
-              <span className="size-2.5 rounded-full bg-warn/70" />
-              <span className="size-2.5 rounded-full bg-ok/70" />                <span className="ml-2 text-xs text-muted-foreground">
-                  wear-it-again — {mode === "signUp" ? "create account" : "log in"}
-                </span>
-            </div>
+    <div className="min-h-screen bg-background">
+      <div className="mx-auto grid min-h-screen max-w-5xl items-center gap-10 px-4 py-10 md:grid-cols-[1fr_1fr]">
+        <div className="hidden md:block">
+          <Link to="/" aria-label="Back to home">
+            <BrandMark />
+          </Link>
+          <h1 className="mt-10 font-display text-5xl font-extrabold leading-[1.05] tracking-tight text-balance">
+            {mode === "signUp"
+              ? "Give your clothes another life."
+              : "Good to see you again."}
+          </h1>
+          <p className="mt-4 max-w-sm text-lg leading-relaxed text-muted-foreground">
+            {friendly}
+          </p>
+        </div>
 
-            <div className="p-6 sm:p-8">
-              <p className="text-xs text-muted-foreground">
-                <span className="text-ok">$</span> ./wear-it-again --auth
-              </p>
-              <h1 className="mt-3 text-2xl font-semibold tracking-tight">
-                {mode === "signUp" ? "Sign up" : "Welcome back"}
-              </h1>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {friendly}
-              </p>
+        <div className="w-full">
+          <Link to="/" className="mb-6 block md:hidden" aria-label="Back to home">
+            <BrandMark />
+          </Link>
+          <div className="stitch rounded-3xl border border-border bg-card p-7 shadow-[0_18px_40px_-22px_rgba(21,29,59,0.35)] sm:p-9">
+            <h2 className="font-display text-3xl font-bold tracking-tight">
+              {mode === "signUp" ? "Create your account" : "Log in"}
+            </h2>
+            <p className="mt-1.5 text-sm text-muted-foreground md:hidden">
+              {friendly}
+            </p>
 
-              <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-                {mode === "signUp" && (
-                  <div>
-                    <label
-                      htmlFor="name"
-                      className="mb-1.5 block text-xs uppercase tracking-wider text-muted-foreground"
-                    >
-                      Name
-                    </label>
-                    <Input
-                      id="name"
-                      name="name"
-                      type="text"
-                      placeholder="Ada Lovelace"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      autoComplete="name"
-                      disabled={isLoading}
-                    />
-                  </div>
-                )}
+            <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+              {mode === "signUp" && (
                 <div>
-                  <label
-                    htmlFor="email"
-                    className="mb-1.5 block text-xs uppercase tracking-wider text-muted-foreground"
-                  >
-                    Email
+                  <label htmlFor="name" className="mb-1.5 block text-sm font-medium">
+                    Name
                   </label>
                   <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="you@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    autoComplete="email"
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder="Your name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    autoComplete="name"
                     disabled={isLoading}
-                    required
+                    className="h-11"
                   />
                 </div>
-                <div>
-                  <label
-                    htmlFor="password"
-                    className="mb-1.5 block text-xs uppercase tracking-wider text-muted-foreground"
-                  >
-                    Password
-                  </label>
-                  <Input
-                    id="password"
-                    name="password"
-                    type="password"
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    autoComplete={
-                      mode === "signUp" ? "new-password" : "current-password"
-                    }
-                    disabled={isLoading}
-                    required
-                    minLength={8}
-                  />
-                  {mode === "signUp" && (
-                    <p className="mt-1.5 text-xs text-muted-foreground">
-                      Minimum 8 characters. Secrets stay secret.
-                    </p>
-                  )}
-                </div>
-
-                {error && (
-                  <p className="rounded border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs text-destructive">
-                    error: {error}
-                  </p>
-                )}
-
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="size-4 animate-spin" />
-                      {mode === "signUp"
-                        ? "Creating account..."
-                        : "Logging in..."}
-                    </>
-                  ) : (
-                    <span className="font-semibold">
-                      {mode === "signUp" ? "$ sign up" : "$ log in"}
-                    </span>
-                  )}
-                </Button>
-              </form>
-
-              <div className="mt-6 border-t border-border pt-4 text-center text-sm">
-                {mode === "signIn" ? (
-                  <button
-                    type="button"
-                    className="text-primary underline-offset-4 hover:underline"
-                    onClick={() => {
-                      setMode("signUp");
-                      setError(null);
-                    }}
-                  >
-                    No account yet? sign up
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="text-primary underline-offset-4 hover:underline"
-                    onClick={() => {
-                      setMode("signIn");
-                      setError(null);
-                    }}
-                  >
-                    Have an account? log in
-                  </button>
-                )}
+              )}
+              <div>
+                <label htmlFor="email" className="mb-1.5 block text-sm font-medium">
+                  Email
+                </label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoComplete="email"
+                  disabled={isLoading}
+                  required
+                  className="h-11"
+                />
               </div>
+              <div>
+                <label htmlFor="password" className="mb-1.5 block text-sm font-medium">
+                  Password
+                </label>
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="At least 8 characters"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete={mode === "signUp" ? "new-password" : "current-password"}
+                  disabled={isLoading}
+                  required
+                  minLength={8}
+                  className="h-11"
+                />
+              </div>
+
+              {error && (
+                <p
+                  role="alert"
+                  className="rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive"
+                >
+                  {error}
+                </p>
+              )}
+
+              <Button type="submit" className="h-11 w-full text-base font-semibold" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="size-4 animate-spin" />
+                    {mode === "signUp" ? "Creating account" : "Logging in"}
+                  </>
+                ) : mode === "signUp" ? (
+                  "Create account"
+                ) : (
+                  "Log in"
+                )}
+              </Button>
+            </form>
+
+            <div className="mt-6 border-t border-border pt-4 text-center text-sm">
+              {mode === "signIn" ? (
+                <button
+                  type="button"
+                  className="font-medium text-primary hover:underline"
+                  onClick={() => {
+                    setMode("signUp");
+                    setError(null);
+                  }}
+                >
+                  New here? Create an account
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="font-medium text-primary hover:underline"
+                  onClick={() => {
+                    setMode("signIn");
+                    setError(null);
+                  }}
+                >
+                  Already have an account? Log in
+                </button>
+              )}
             </div>
           </div>
-
-          <p className="mt-6 text-center text-xs text-muted-foreground">
-            <Link to="/" className="underline-offset-4 hover:underline">
-              ← back to home
-            </Link>
-          </p>
         </div>
       </div>
     </div>

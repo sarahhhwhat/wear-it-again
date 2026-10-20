@@ -1,4 +1,5 @@
-import { TermWindow } from "@/components/TermWindow";
+import { PageHeader } from "@/components/PageHeader";
+import { Panel } from "@/components/Panel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -22,19 +23,19 @@ type Result = {
 
 const VERDICT_UI: Record<Verdict, { label: string; className: string }> = {
   credible: {
-    label: "[ ok ] specific & checkable",
+    label: "Specific and checkable",
     className: "border-ok/40 bg-ok/10 text-ok",
   },
   mixed: {
-    label: "[ .. ] mixed — some claims need proof",
-    className: "border-warn/50 bg-warn/10 text-warn",
+    label: "Mixed: some claims need proof",
+    className: "border-stitch bg-accent text-warn",
   },
   vague: {
-    label: "[ !! ] vague — possible greenwashing",
+    label: "Vague: possible greenwashing",
     className: "border-destructive/40 bg-destructive/10 text-destructive",
   },
   insufficient: {
-    label: "[ ?? ] not enough to judge",
+    label: "Not enough to judge",
     className: "border-border bg-muted text-muted-foreground",
   },
 };
@@ -56,13 +57,11 @@ function FlagList({ title, items }: { title: string; items: string[] }) {
   if (items.length === 0) return null;
   return (
     <div>
-      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-        {title}
-      </p>
-      <ul className="mt-2 space-y-1.5 text-sm leading-relaxed">
+      <h3 className="font-display text-base font-semibold">{title}</h3>
+      <ul className="mt-2 space-y-2 leading-relaxed">
         {items.map((t, i) => (
-          <li key={i} className="flex gap-2">
-            <span className="text-ok">›</span>
+          <li key={i} className="flex gap-2.5">
+            <span className="mt-2 size-1.5 shrink-0 rounded-full bg-stitch" />
             <span>{t}</span>
           </li>
         ))}
@@ -106,65 +105,55 @@ export default function GreenwashCheck() {
   const ui = result ? VERDICT_UI[result.verdict] : null;
 
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <p className="text-xs text-muted-foreground">
-          <span className="text-ok">$</span> ./greenwash-check --claim
-        </p>
-        <h1 className="mt-1 text-2xl font-semibold tracking-tight">
-          Greenwash checker
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          Paste a sustainability claim from a brand&apos;s site, tag or ad. The
-          AI reads the wording for common greenwashing patterns. It can&apos;t
-          look the brand up, so treat the result as a prompt for questions, not
-          a certification.
-        </p>
-      </div>
+    <div className="flex flex-col gap-8">
+      <PageHeader
+        title="Greenwash checker"
+        description="Paste a sustainability claim from a brand's site, tag or ad. The AI reads the wording for common greenwashing patterns. It can't look the brand up, so treat the result as a prompt for questions, not a certification."
+      />
 
-      <TermWindow title="input --claim">
+      <Panel title="The claim" stitched>
         <div className="flex flex-col gap-4">
           <div>
-            <label className="text-xs text-muted-foreground" htmlFor="brand">
-              brand (optional)
+            <label className="text-sm font-medium" htmlFor="brand">
+              Brand <span className="font-normal text-muted-foreground">(optional)</span>
             </label>
             <Input
               id="brand"
               value={brand}
               onChange={(e) => setBrand(e.target.value)}
-              placeholder="e.g. the brand you're looking at"
+              placeholder="The brand you're looking at"
               maxLength={100}
-              className="mt-1"
+              className="mt-1.5 h-10"
             />
           </div>
           <div>
-            <label className="text-xs text-muted-foreground" htmlFor="claim">
-              the claim (copy-paste the exact words)
+            <label className="text-sm font-medium" htmlFor="claim">
+              Paste the exact words
             </label>
             <Textarea
               id="claim"
               value={claim}
               onChange={(e) => setClaim(e.target.value)}
-              placeholder="e.g. “Our eco-friendly collection is made with love for the planet…”"
+              placeholder="“Our eco-friendly collection is made with love for the planet…”"
               rows={5}
               maxLength={2500}
-              className="mt-1"
+              className="mt-1.5"
             />
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <Button
               onClick={run}
               disabled={pending}
-              className="cursor-pointer font-semibold"
+              className="h-10 cursor-pointer px-5 font-semibold"
             >
               {pending ? (
                 <Loader2 className="size-4 animate-spin" />
               ) : (
                 <ScanSearch className="size-4" />
               )}
-              {pending ? "analysing…" : "check this claim"}
+              {pending ? "Analysing" : "Check this claim"}
             </Button>
-            <span className="text-xs text-muted-foreground">try an example:</span>
+            <span className="ml-1 text-sm text-muted-foreground">Try an example:</span>
             {EXAMPLES.map((ex) => (
               <Button
                 key={ex.label}
@@ -182,7 +171,7 @@ export default function GreenwashCheck() {
             ))}
           </div>
         </div>
-      </TermWindow>
+      </Panel>
 
       {result && ui && (
         <motion.div
@@ -190,31 +179,31 @@ export default function GreenwashCheck() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
         >
-          <TermWindow title="output --analysis">
-            <div className="flex flex-col gap-5">
+          <Panel title="What we found">
+            <div className="flex flex-col gap-6">
               <span
-                className={`inline-block w-fit rounded-sm border px-2.5 py-1 text-xs font-semibold ${ui.className}`}
+                className={`inline-block w-fit rounded-full border px-3.5 py-1.5 text-sm font-semibold ${ui.className}`}
               >
                 {ui.label}
               </span>
               {result.summary && (
-                <p className="text-sm leading-relaxed">{result.summary}</p>
+                <p className="max-w-2xl text-lg leading-relaxed">{result.summary}</p>
               )}
 
               {result.redFlags.length > 0 && (
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    red flags
-                  </p>
+                  <h3 className="font-display text-base font-semibold">
+                    Red flags
+                  </h3>
                   <ul className="mt-2 space-y-3">
                     {result.redFlags.map((f, i) => (
                       <li
                         key={i}
-                        className="rounded-sm border border-destructive/25 bg-destructive/5 px-3 py-2 text-sm leading-relaxed"
+                        className="rounded-xl border border-destructive/25 bg-destructive/5 px-4 py-3 leading-relaxed"
                       >
                         <p className="font-semibold">{f.pattern}</p>
                         {f.quote && (
-                          <p className="mt-0.5 text-xs italic text-muted-foreground">
+                          <p className="mt-0.5 text-sm italic text-muted-foreground">
                             “{f.quote}”
                           </p>
                         )}
@@ -225,17 +214,14 @@ export default function GreenwashCheck() {
                 </div>
               )}
 
-              <FlagList title="what looks solid" items={result.greenFlags} />
+              <FlagList title="What looks solid" items={result.greenFlags} />
               <FlagList
-                title="questions to ask the brand"
+                title="Questions to ask the brand"
                 items={result.questionsToAsk}
               />
-              <FlagList
-                title="verify independently"
-                items={result.verifyWith}
-              />
+              <FlagList title="Verify independently" items={result.verifyWith} />
             </div>
-          </TermWindow>
+          </Panel>
         </motion.div>
       )}
     </div>

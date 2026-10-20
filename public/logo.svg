@@ -1,1 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 96.81 96.81"><rect width="96.81" height="96.81" rx="18"/><g fill="#fff"><rect x="24.67" y="24.67" width="47.47" height="11.87"/><rect x="24.67" y="36.54" width="11.87" height="35.61"/><rect x="40.06" y="39.98" width="23.74" height="11.87"/><rect x="40.06" y="51.85" width="11.87" height="20.3"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Wear It Again">
+  <rect width="64" height="64" rx="14" fill="#2747d8"/>
+  <path d="M32 9c-2.2 0-4 1.8-4 4v1.2L15.6 21.6c-1.2.7-1.9 2-1.9 3.4V50c0 2.2 1.8 4 4 4h28.6c2.2 0 4-1.8 4-4V25c0-1.4-.7-2.7-1.9-3.4L36 14.2V13c0-2.2-1.8-4-4-4z" fill="none"/>
+  <rect x="17" y="12" width="30" height="40" rx="6" fill="#f2f4f9"/>
+  <rect x="20.5" y="15.5" width="23" height="33" rx="3.5" fill="none" stroke="#ffb400" stroke-width="2" stroke-dasharray="3.2 2.6" stroke-linecap="round"/>
+  <circle cx="32" cy="22" r="3" fill="#2747d8"/>
+  <path d="M25.5 37.5a6.5 6.5 0 0 1 11.2-4.5M38.5 40.5a6.5 6.5 0 0 1-11.2 4.5" fill="none" stroke="#2747d8" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M37.6 29.6l-.9 3.5-3.5-.9M26.4 48.4l.9-3.5 3.5.9" fill="none" stroke="#2747d8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

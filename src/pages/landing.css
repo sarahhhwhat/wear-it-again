@@ -1,0 +1,386 @@
+/* ORRERY-style home page: a centred almanac over a light, vibrant orbit scene */
+.orrery {
+  --bg: #f5f6ff;
+  --ink: #101840;
+  --soft: #5c6490;
+  --rule: rgba(16, 24, 64, 0.16);
+  --coral: #ff595e;
+  --denim: #2747d8;
+  --amber: #ffb400;
+  position: relative;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: "Supreme", "Figtree", ui-sans-serif, system-ui, sans-serif;
+  overflow-x: clip;
+}
+.orrery * {
+  box-sizing: border-box;
+}
+.orr-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(60rem 40rem at 15% 8%, #ffe9d6 0%, transparent 60%),
+    radial-gradient(55rem 38rem at 88% 22%, #dfe6ff 0%, transparent 62%),
+    radial-gradient(50rem 36rem at 50% 100%, #fff1c9 0%, transparent 65%),
+    var(--bg);
+}
+.orr-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  display: block;
+}
+/* a fixed gradient layer, never a CSS filter on the canvas */
+.orr-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 50% 45%,
+    rgba(245, 246, 255, 0) 40%,
+    rgba(245, 246, 255, 0.78) 100%
+  );
+}
+.orr-page {
+  position: relative;
+  z-index: 2;
+}
+.orr-col {
+  width: 100%;
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  text-align: center;
+}
+.orr-mono {
+  font-family: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+.orrery p,
+.orrery h1,
+.orrery h2,
+.orrery h3 {
+  text-shadow: 0 0 8px rgba(245, 246, 255, 0.7), 0 0 2px rgba(245, 246, 255, 0.8);
+}
+
+/* nav */
+.orr-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1.25rem 1.25rem 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+.orr-nav a {
+  color: var(--ink);
+  text-decoration: none;
+}
+.orr-nav .links {
+  display: none;
+  gap: 1.5rem;
+  color: var(--soft);
+}
+.orr-nav .links a {
+  color: var(--soft);
+}
+.orr-nav .links a:hover,
+.orr-nav .join:hover {
+  color: var(--denim);
+}
+.orr-brand {
+  font-family: "Amulya", "Bricolage Grotesque", sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  grid-column: 1;
+  justify-self: start;
+}
+.orr-nav .join {
+  justify-self: end;
+  grid-column: 3;
+  font-weight: 500;
+  border-bottom: 1.5px dashed var(--amber);
+  padding-bottom: 2px;
+}
+@media (min-width: 640px) {
+  .orr-nav {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+  }
+  .orr-nav .links {
+    display: flex;
+    grid-column: 1;
+    justify-self: start;
+  }
+  .orr-brand {
+    grid-column: 2;
+    justify-self: center;
+  }
+}
+
+/* hero */
+.orr-hero {
+  min-height: calc(100svh - 3.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 0 4rem;
+}
+.orr-eyebrow {
+  display: block;
+  font-size: 0.74rem;
+  line-height: 1.6;
+  color: var(--soft);
+}
+.orr-dot {
+  display: inline-block;
+  vertical-align: middle;
+  margin: -2px 0.65rem 0 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: var(--coral);
+  box-shadow: 0 0 0 4px rgba(255, 89, 94, 0.18);
+}
+.orr-h1 {
+  margin: 1.6rem 0 0;
+  font-family: "Amulya", "Bricolage Grotesque", sans-serif;
+  font-weight: 500;
+  font-size: clamp(1.9rem, 4.3vw, 3.5rem);
+  line-height: 1.24;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.orr-h1 span {
+  display: block;
+}
+.orr-sub {
+  margin: 1.8rem auto 0;
+  max-width: 34rem;
+  font-size: 1.06rem;
+  line-height: 1.65;
+  color: #2b3466;
+}
+.orr-cta-row {
+  margin-top: 2.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 1.4rem;
+}
+.orr-cta {
+  position: relative;
+  display: inline-block;
+  padding: 0.95rem 1.9rem;
+  border-radius: 9999px;
+  background: var(--denim);
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.98rem;
+  text-decoration: none;
+  box-shadow: 0 12px 28px -12px rgba(39, 71, 216, 0.7);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.orr-cta::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 9999px;
+  border: 1.5px dashed rgba(255, 180, 0, 0.95);
+  pointer-events: none;
+}
+.orr-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 32px -12px rgba(39, 71, 216, 0.8);
+}
+.orr-hint {
+  font-size: 0.74rem;
+  color: var(--soft);
+}
+
+/* ephemeris rule */
+.orr-eph {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  background: rgba(245, 246, 255, 0.55);
+  backdrop-filter: blur(2px);
+}
+.orr-eph > div {
+  padding: 1.1rem 0.5rem;
+}
+.orr-eph > div:nth-child(n + 3) {
+  border-top: 1px solid var(--rule);
+}
+.orr-eph dt {
+  font-size: 0.68rem;
+  color: var(--soft);
+}
+.orr-eph dd {
+  margin: 0.35rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+@media (min-width: 640px) {
+  .orr-eph {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .orr-eph > div:nth-child(n + 3) {
+    border-top: 0;
+  }
+}
+.orr-legend {
+  margin: 1.4rem auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.1rem;
+  font-size: 0.7rem;
+  color: var(--soft);
+}
+.orr-legend i {
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-right: 0.4rem;
+  border-radius: 9999px;
+}
+.orr-legend-note {
+  margin: 0.9rem auto 0;
+  max-width: 34rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--soft);
+}
+
+/* sections */
+.orr-sec {
+  padding: 6.5rem 0 1rem;
+}
+.orr-h2 {
+  margin: 0;
+  font-family: "Amulya", "Bricolage Grotesque", sans-serif;
+  font-weight: 500;
+  font-size: clamp(1.7rem, 3.6vw, 2.7rem);
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.orr-h2 span {
+  display: block;
+}
+.orr-lede {
+  margin: 1.4rem auto 0;
+  max-width: 34rem;
+  line-height: 1.7;
+  color: #2b3466;
+}
+.orr-list {
+  margin: 2.6rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.orr-list li {
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--rule);
+}
+.orr-list li:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+.orr-tag {
+  font-size: 0.74rem;
+  color: var(--coral);
+  font-weight: 500;
+}
+.orr-item-title {
+  display: block;
+  margin-top: 0.45rem;
+  font-family: "Amulya", "Bricolage Grotesque", sans-serif;
+  font-weight: 500;
+  font-size: 1.35rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+a.orr-item-title:hover {
+  color: var(--denim);
+}
+.orr-item-desc {
+  margin: 0.55rem auto 0;
+  max-width: 32rem;
+  line-height: 1.65;
+  color: #2b3466;
+}
+.orr-spec {
+  margin-top: 0.7rem;
+  font-size: 0.74rem;
+  color: var(--soft);
+}
+.orr-roman {
+  font-size: 0.78rem;
+  color: var(--soft);
+}
+.orr-final {
+  padding-bottom: 5rem;
+}
+.orr-footer {
+  border-top: 1px solid var(--rule);
+  padding: 2rem 0 2.5rem;
+  font-size: 0.72rem;
+  line-height: 2;
+  color: var(--soft);
+  background: rgba(245, 246, 255, 0.6);
+}
+
+/* preloader: held open until the first frame is drawn */
+.orr-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  background: var(--bg);
+  color: var(--soft);
+  font-size: 0.74rem;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+.orr-loader.done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.orr-loader .ring {
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 9999px;
+  border: 1.5px dashed var(--amber);
+  animation: orr-spin 3.2s linear infinite;
+}
+@keyframes orr-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orr-loader .ring {
+    animation: none;
+  }
+  .orr-cta {
+    transition: none;
+  }
+}
